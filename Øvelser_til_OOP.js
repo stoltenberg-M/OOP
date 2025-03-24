@@ -16,6 +16,18 @@ class kage{
     }
 }
 
+class A{
+    constructor(){
+        this.B
+    }
+}
+
+class B{
+    constructor(){
+        this.A
+    }
+}
+
 function draw(){
 
 }
