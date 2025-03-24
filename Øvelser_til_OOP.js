@@ -8,7 +8,7 @@ background(180,200,180);
 class kage{
     constructor(){
         this.x=100
-        this.y=300  
+        this.y=300
     }
 }
 
