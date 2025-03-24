@@ -18,13 +18,13 @@ class kage{
 
 class A{
     constructor(){
-        this.B
+        this.a=B
     }
 }
 
 class B{
     constructor(){
-        this.A
+        this.b=B
     }
 }
 
