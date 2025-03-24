@@ -1,4 +1,4 @@
-let v1
+let v1,v2
  
 function setup() {
   createCanvas(400, 400);
@@ -23,4 +23,5 @@ class Vector{
     line(this.x0,this.y0,this.x1,this.y1)
     circle(this.x1,this.y1,10)
   }
+
 }
