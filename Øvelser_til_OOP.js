@@ -3,11 +3,19 @@
 function setup(){
 createCanvas(400, 400);
 background(180,200,180); 
-
+/*
 A1 = new kage()
 A1.O
-}
+*/
 
+A1 = new A()
+
+B1 = new B()
+
+
+
+}
+/*
 class kage{
     constructor(){
         this.x=100
@@ -15,16 +23,23 @@ class kage{
         this.O=rect(50,50,10,10)
     }
 }
+*/
 
 class A{
     constructor(){
-        this.a=B
+        this.b
+    }
+    setB(b){
+        this.b=b
     }
 }
 
 class B{
     constructor(){
-        this.b=A
+        this.a
+    }
+    setA(a){
+        this.a=a
     }
 }
 
