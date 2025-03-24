@@ -24,7 +24,7 @@ class A{
 
 class B{
     constructor(){
-        this.b=B
+        this.b=A
     }
 }
 
