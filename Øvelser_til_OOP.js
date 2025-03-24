@@ -1,18 +1,19 @@
 
 
-class kage{
-    constructor(x,y){
-        this.x=x
-        this.y=y   
-    }
+function setup(){
+createCanvas(400, 400);
 }
 
-function setup(){
-
+class kage{
+    constructor(){
+        this.x=100
+        this.y=300  
+    }
 }
 
 function draw(){
 
 }
+
 
 //kage
