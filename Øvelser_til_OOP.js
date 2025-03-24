@@ -2,6 +2,7 @@
 
 function setup(){
 createCanvas(400, 400);
+background(180,200,180); 
 }
 
 class kage{
