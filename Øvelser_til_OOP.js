@@ -27,7 +27,7 @@ class Vector{
     circle(this.x1,this.y1,10)
   }
 dotProdukt(v2){
-  return (thisx*v2x+thisy*v2y)
+  return (this.x*v2.x+this.y*v2.y)
 }
 
 
