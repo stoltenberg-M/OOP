@@ -3,28 +3,26 @@ let v1,v2
  
 function setup() {
   createCanvas(400, 400);
-  v1 = new Vector(100,100,20,50)
-  v2 = new Vector(200,200,20,50)
+  v1 = new Vector(20,40)
+  v2 = new Vector(60,80)
   v1.dotProdukt(v2)
+  console.log(v1.dotProdukt(v2))
 }
  
 function draw() {
   background(220);
-  v1.show()
+  v1.show("red")
+  v2.show("blue")
 }
  
 class Vector{
-  constructor(a,b,x0,y0){
-    this.a=a
-    this.b=b
-    this.x0=x0
-    this.y0=y0
-    this.x1=this.x0+this.a
-    this.y1=this.y0+this.b
+  constructor(x,y){
+    this.x=x
+    this.y=y
   }
-  show(){
-    line(this.x0,this.y0,this.x1,this.y1)
-    circle(this.x1,this.y1,10)
+  show(col,x0=0,y0=0){
+    stroke(col)
+    line(x0,y0,this.x,this.y)
   }
 dotProdukt(v2){
   return (this.x*v2.x+this.y*v2.y)
