@@ -79,7 +79,7 @@ function draw() {
   if (y1 > height-15 || y1 < 15) {
     yS1 = -yS1;
   }
-  if (x1 > width - 15 || x1 < 15) {
+  if (x1 > width-15 || x1 < 15) {
     xS1 = -xS1;
 }
 }

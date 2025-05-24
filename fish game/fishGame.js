@@ -1,15 +1,20 @@
 let x=100,y=100;
 let F1,Sark1;
 let xS=400,yS=400,speed,distance,d1,d2;
+let Water_grass = [];
 
 function setup(){
 createCanvas(1675,800);
 background(220);
-F1 = new Fish(x, y)
+F1 = new myFish(x, y)
 Sark1 = new shark(xS, yS);
+
+for (let i = 0; i < width; i += 10){
+    Water_grass.push(new Water_weed(i, 800));
+}
 }
 
-class Fish{
+class myFish{
     constructor(x,y){
         this.x=x 
         this.y=y 
@@ -38,14 +43,47 @@ class shark{
     }
 }
 
+class Water_weed{
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.angle = 0;
+        this.targetAngle = 0;
+    }
+    update() {
+        let fishDist = dist(this.x, this.y, F1.x, F1.y);
+        let sharkDist = dist(this.x, this.y, Sark1.x, Sark1.y);
+
+        if (fishDist < 60 || sharkDist < 80) {
+            let closestX = (fishDist < sharkDist) ? x : xS;
+            this.targetAngle = map(this.x - closestX, -50, 50, -PI / 4, PI / 4);
+        } else {
+            this.targetAngle = 0;
+        }
+
+    this.angle = lerp(this.angle, this.targetAngle, 0.1);
+
+    }
+    show() {
+        push();
+        translate(this.x, this.y);
+        rotate(this.angle);
+        stroke("green");
+        strokeWeight(5);
+        line(0, 0, 0, -50);
+        pop();
+    }
+}
+
 function draw(){
     background(220);
     Fish_move();
-
-    F1.x = x; F1.y = y;
-        F1.show("red")
-    Sark1.x = xS; Sark1.y = yS;
-        Sark1.show("blue")
+    allFish_go();
+   
+    for (let i of Water_grass) {
+        i.update();
+        i.show();
+    }
 }
 
 function Fish_move() {
@@ -71,7 +109,7 @@ function Fish_move() {
 //shark
   d1 = x - xS; d2 = y - yS;
   distance = dist(x,y,xS,yS);
-  speed = 3
+  speed = 5
 
 
   if (distance > 1) {
@@ -80,3 +118,9 @@ function Fish_move() {
   }
 }
 
+function allFish_go() {
+    F1.x = x; F1.y = y;
+        F1.show("red")
+    Sark1.x = xS; Sark1.y = yS;
+        Sark1.show("blue")
+}
