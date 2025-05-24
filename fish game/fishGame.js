@@ -2,10 +2,15 @@ let x=100,y=100;
 let F1,Sark1;
 let xS=400,yS=400,speed,distance,d1,d2;
 let Water_grass = [];
+let saeImage;
+
+function preload() {
+    saeImage = loadImage("sae baed.png"); 
+}
 
 function setup(){
   createCanvas(1675,800);
-  background(220);
+  background(saeImage);
   F1 = new myFish(x, y)
   Sark1 = new shark(xS, yS);
 
@@ -68,14 +73,14 @@ class Water_weed{
         translate(this.x, this.y);
         rotate(this.angle);
         stroke("green");
-        strokeWeight(5);
-        line(0, 0, 0, -50);
+        strokeWeight(3);
+        line(0, 0, 0, -40);
         pop();
     }
 }
 
 function draw(){
-    drawUnderwaterBackground(); // Custom background
+    background(saeImage); 
     Fish_move();
     allFish_go();
 
@@ -108,7 +113,7 @@ function Fish_move() {
   //shark
   d1 = x - xS; d2 = y - yS;
   distance = dist(x,y,xS,yS);
-  speed = 5
+  speed = 4
 
   if (distance > 1) {
     xS += (d1/distance)*speed;
@@ -121,19 +126,4 @@ function allFish_go() {
     F1.show("red")
     Sark1.x = xS; Sark1.y = yS;
     Sark1.show("blue")
-}
-
-// 🌊 Underwater background
-function drawUnderwaterBackground() {
-    // Gradient water
-    for (let i = 0; i < height; i++) {
-        let c = lerpColor(color(0, 150, 255), color(0, 100, 200), i / height);
-        stroke(c);
-        line(0, i, width, i);
-    }
-
-    // Seabed
-    noStroke();
-    fill(139, 69, 19); // brown
-    rect(0, height - 50, width, 50);
 }
