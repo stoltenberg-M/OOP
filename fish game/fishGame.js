@@ -1,6 +1,5 @@
-let fish_oil = [];
-let t = 0; 
-let run = true;
+let x;
+let y;
 
 function setup(){
 createCanvas(1675,800);
@@ -10,66 +9,56 @@ background(220);
 
 class Fish{
     constructor(x,y){
-        this.x=x || 0
-        this.y=y || 0
+        this.x=x || 100
+        this.y=y || 100
     } 
     show(col){
         fill(col)
-        ellipse(this.x, this.y, 20, 20)
-
+        ellipse(this.x, this.y, 30, 30)
+        fill(0);
+        ellipse(this.x + 10, this.y - 5, 5, 5); // Eye
+        ellipse(this.x - 10, this.y - 5, 5, 5); // Eye
+        ellipse(this.x, this.y + 6, 15, 5); // food hold
     }
 }
 
-let currentFishPosition = {x: 0, y: 0};
 
 function draw(){
-    if(run){
-        tid();
-        if (fish_oil.length > 1) {
-            currentFishPosition = fishLerp(fish_oil, t);
-        }
-        fishMan(fishLerpFind);
-        
-    }
+    youFish_move();
+    fishMan();
 }
 
-function tid(){
-    if(run === true){
-        t += 0.005;
-    }
+function youFish_move() {
+    if (x <= 1) {
+    x;
+  }
+  else if (keyIsDown(65)) {
+    x -= 5;
+  }
+
+  if (x >= 510) {
+    x;
+  }
+  else if (keyIsDown(68)) {
+    x += 5;
+  }
+  
+  if (y <= 1) {
+    y;
+  }
+  else if (keyIsDown(87)) {
+    y -= 5;
+  }
+  if (y >= 510) {
+    y;
+  }
+  else if (keyIsDown(83)) {
+    y += 5;
+  }
 }
 
-function fishLerpFind() {
-      if (mouseButton === LEFT) {
-        if (fish_oil.length < 3) {
-            fish_oil.push({x: random(1675), y: random(800)});
-        } else {
-            fish_oil[0] = fish_oil[2];  
-            fish_oil[1] = {x: random(1675), y: random(800)}; 
-            fish_oil.splice(2,1); 
-        }
-        t = 0;
-        console.log(fish_oil);
-    }
-}
-    
-function fishLerp(fish_oil, t){
-    if (fish_oil.length == 1) {
-        return fish_oil[0];
-    }
-    let newFish = [];
-    for (let i = 0; i < fish_oil.length - 1; i++) {
-    let xFish = lerp(fish_oil[i].x, fish_oil[i + 1].x, t);
-    let yFish = lerp(fish_oil[i].y, fish_oil[i + 1].y, t);
-    newFish.push({xFish, yFish});
-    }  
-    return newFish[newFish.length - 1];
-
-}
-function fishMan(position) {
-    if (position) {
-    let f1 = new Fish(position.x, position.y)
+function fishMan() {
+    let f1 = new Fish(x, y)
     f1.show("red")
-    }
-    
+    console.log(x,y);
 }
