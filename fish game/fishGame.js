@@ -4,14 +4,14 @@ let xS=400,yS=400,speed,distance,d1,d2;
 let Water_grass = [];
 
 function setup(){
-createCanvas(1675,800);
-background(220);
-F1 = new myFish(x, y)
-Sark1 = new shark(xS, yS);
+  createCanvas(1675,800);
+  background(220);
+  F1 = new myFish(x, y)
+  Sark1 = new shark(xS, yS);
 
-for (let i = 0; i < width; i += 10){
-    Water_grass.push(new Water_weed(i, 800));
-}
+  for (let i = 0; i < width; i += 10){
+      Water_grass.push(new Water_weed(i, 800));
+  }
 }
 
 class myFish{
@@ -61,8 +61,7 @@ class Water_weed{
             this.targetAngle = 0;
         }
 
-    this.angle = lerp(this.angle, this.targetAngle, 0.1);
-
+        this.angle = lerp(this.angle, this.targetAngle, 0.1);
     }
     show() {
         push();
@@ -76,10 +75,10 @@ class Water_weed{
 }
 
 function draw(){
-    background(220);
+    drawUnderwaterBackground(); // Custom background
     Fish_move();
     allFish_go();
-   
+
     for (let i of Water_grass) {
         i.update();
         i.show();
@@ -106,11 +105,10 @@ function Fish_move() {
     y += 5;
   }
 
-//shark
+  //shark
   d1 = x - xS; d2 = y - yS;
   distance = dist(x,y,xS,yS);
   speed = 5
-
 
   if (distance > 1) {
     xS += (d1/distance)*speed;
@@ -120,7 +118,22 @@ function Fish_move() {
 
 function allFish_go() {
     F1.x = x; F1.y = y;
-        F1.show("red")
+    F1.show("red")
     Sark1.x = xS; Sark1.y = yS;
-        Sark1.show("blue")
+    Sark1.show("blue")
+}
+
+// 🌊 Underwater background
+function drawUnderwaterBackground() {
+    // Gradient water
+    for (let i = 0; i < height; i++) {
+        let c = lerpColor(color(0, 150, 255), color(0, 100, 200), i / height);
+        stroke(c);
+        line(0, i, width, i);
+    }
+
+    // Seabed
+    noStroke();
+    fill(139, 69, 19); // brown
+    rect(0, height - 50, width, 50);
 }
