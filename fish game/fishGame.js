@@ -1,11 +1,16 @@
 let x = 100, y = 100;
 let F1, Sark1;
-let xS = 400, yS = 400, speed, distance, d1, d2;
+let xS = 400, yS = 400;
 let Water_grass = [];
 let saeImage;
 
 let fishAngle = 0;
-let noiseOffset = 0;
+let fishNoiseOffset = 0;
+
+let sharkAngle = 0;
+let sharkNoiseOffset = 1000;
+let sharkMode = "patrol";
+let sharkTimer = 0;
 
 function preload() {
     saeImage = loadImage("sae baed.png"); 
@@ -31,9 +36,9 @@ class myFish {
         fill(col);
         ellipse(this.x, this.y, 30, 30);
         fill(0);
-        ellipse(this.x + 10, this.y - 5, 5, 5); // Eye
-        ellipse(this.x - 10, this.y - 5, 5, 5); // Eye
-        ellipse(this.x, this.y + 6, 15, 5); // Mouth
+        ellipse(this.x + 10, this.y - 5, 5, 5);
+        ellipse(this.x - 10, this.y - 5, 5, 5);
+        ellipse(this.x, this.y + 6, 15, 5);
     }
 }
 
@@ -46,9 +51,9 @@ class shark {
         fill(col);
         ellipse(this.x, this.y, 40, 40);
         fill(0);
-        ellipse(this.x + 10, this.y - 5, 5, 5); // Eye
-        ellipse(this.x - 10, this.y - 5, 5, 5); // Eye
-        ellipse(this.x, this.y + 6, 15, 5); // Mouth
+        ellipse(this.x + 10, this.y - 5, 5, 5);
+        ellipse(this.x - 10, this.y - 5, 5, 5);
+        ellipse(this.x, this.y + 6, 15, 5);
     }
 }
 
@@ -86,6 +91,7 @@ class Water_weed {
 function draw(){
     background(saeImage); 
     Fish_move();
+    Shark_move();
     allFish_go();
 
     for (let i of Water_grass) {
@@ -95,32 +101,65 @@ function draw(){
 }
 
 function Fish_move() {
-    // Natural fish motion using Perlin noise
-    noiseOffset += 0.01;
-    let angleChange = map(noise(noiseOffset), 0, 1, -0.1, 0.1);
+    fishNoiseOffset += 0.01;
+    let angleChange = map(noise(fishNoiseOffset), 0, 1, -0.1, 0.1);
     fishAngle += angleChange;
 
     let stepSize = 2.5;
     x += cos(fishAngle) * stepSize;
     y += sin(fishAngle) * stepSize;
 
-    // Keep fish inside canvas
     if (x < 15 || x > width - 15) {
         fishAngle = PI - fishAngle;
     }
     if (y < 15 || y > height - 15) {
         fishAngle = -fishAngle;
     }
+}
 
-    // Shark chases fish
-    d1 = x - xS;
-    d2 = y - yS;
-    distance = dist(x, y, xS, yS);
-    speed = 4;
+function Shark_move() {
+    let detectionRange = 150;
+    let now = millis();
 
-    if (distance > 1) {
-        xS += (d1 / distance) * speed;
-        yS += (d2 / distance) * speed;
+    // Handle state transitions
+    if (sharkMode === "patrol" && dist(x, y, xS, yS) < detectionRange) {
+        sharkMode = "chase";
+        sharkTimer = now;
+    } else if (sharkMode === "chase" && now - sharkTimer > 5000) {
+        sharkMode = "ignore";
+        sharkTimer = now;
+    } else if (sharkMode === "ignore" && now - sharkTimer > 5000) {
+        sharkMode = "patrol";
+    }
+
+    if (sharkMode === "patrol") {
+        // Natural patrol movement
+        sharkNoiseOffset += 0.008;
+        let angleChange = map(noise(sharkNoiseOffset), 0, 1, -0.05, 0.05);
+        sharkAngle += angleChange;
+
+        let stepSize = 2;
+        xS += cos(sharkAngle) * stepSize;
+        yS += sin(sharkAngle) * stepSize;
+
+        if (xS < 15 || xS > width - 15) {
+            sharkAngle = PI - sharkAngle;
+        }
+        if (yS < 15 || yS > height - 15) {
+            sharkAngle = -sharkAngle;
+        }
+    }
+
+    if (sharkMode === "chase") {
+        let d1 = x - xS;
+        let d2 = y - yS;
+        let distance = dist(x, y, xS, yS);
+        let speed = 3.5;
+
+        if (distance > 1) {
+            xS += (d1 / distance) * speed;
+            yS += (d2 / distance) * speed;
+        }
     }
 }
 
