@@ -154,12 +154,24 @@ class WaterWeed {
         this.targetAngle = 0;
     }
 
-    update(fishX, fishY, sharkX, sharkY) {
-        let fishDist = dist(this.x, this.y, fishX, fishY);
+    update(fishes, sharkX, sharkY) {
+        // Find den nærmeste fisk
+        let closestFish = null;
+        let minDist = Infinity;
+        for (let fish of fishes) {
+            let d = dist(this.x, this.y, fish.x, fish.y);
+            if (d < minDist) {
+                minDist = d;
+                closestFish = fish;
+            }
+        }
+
+        // Find afstand til haj
         let sharkDist = dist(this.x, this.y, sharkX, sharkY);
 
-        if (fishDist < 60 || sharkDist < 80) {
-            let closestX = (fishDist < sharkDist) ? fishX : sharkX;
+        // Hvis nærmeste fisk eller haj er tæt på, beregn targetAngle
+        if ((closestFish && minDist < 60) || sharkDist < 80) {
+            let closestX = (minDist < sharkDist) ? closestFish.x : sharkX;
             this.targetAngle = map(this.x - closestX, -50, 50, -PI / 4, PI / 4);
         } else {
             this.targetAngle = 0;
@@ -187,12 +199,12 @@ function draw() {
         fish.show();
     }
 
-    let targetFish = allFish[0];
+    let targetFish = allFish[0]; // MyFish
     shark.move(targetFish.x, targetFish.y);
     shark.show();
 
     for (let weed of Water_grass) {
-        weed.update(targetFish.x, targetFish.y, shark.x, shark.y);
+        weed.update(allFish, shark.x, shark.y);  // sender alle fisk til update
         weed.show();
     }
 }
