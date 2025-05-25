@@ -1,11 +1,10 @@
-// Declare global variables
 let saeImage; // Background image
 let allFish = []; // Array to store all fish
 let shark; // Shark object
 let xS = 400, yS = 400; // Initial shark position
 let sharkAngle = 0; // Direction the shark is moving
 let sharkNoiseOffset = 1000; // Helps randomize shark movement
-let sharkMode = "patrol"; // Shark behavior: patrol, chase, ignore
+let sharkMode = "patrol"; // Shark behavior: patrol, chase and ignore
 let sharkTimer = 0; // Tracks when shark switches modes
 let Water_grass = []; // Array to store grass objects
 
@@ -17,7 +16,7 @@ function setup() {
     createCanvas(1675, 800);
     background(saeImage); // Set background image
 
-    allFish.push(new MyFish(100, 100)); // Create the player-controlled fish
+    allFish.push(new MyFish(100, 100)); // Create the red fish
 
     // Generate 5 AI fish at random positions
     for (let i = 0; i < 5; i++) {
@@ -46,10 +45,6 @@ class Fish {
         ellipse(this.x + 10, this.y - 5, 5, 5); // Eye
         ellipse(this.x - 10, this.y - 5, 5, 5); // Eye
         ellipse(this.x, this.y + 6, 15, 5); // Mouth
-    }
-
-    move() {
-        // This function will be overwritten in subclasses
     }
 }
 
