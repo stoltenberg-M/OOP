@@ -143,6 +143,10 @@ class Shark {
                 this.y += (dy / distToTarget) * 3.5;
             }
         }
+
+        // Begræns hajens position inden for canvas
+        this.x = constrain(this.x, 15, width - 15);
+        this.y = constrain(this.y, 15, height - 15);
     }
 }
 
@@ -155,7 +159,6 @@ class WaterWeed {
     }
 
     update(fishes, sharkX, sharkY) {
-        // Find den nærmeste fisk
         let closestFish = null;
         let minDist = Infinity;
         for (let fish of fishes) {
@@ -166,10 +169,8 @@ class WaterWeed {
             }
         }
 
-        // Find afstand til haj
         let sharkDist = dist(this.x, this.y, sharkX, sharkY);
 
-        // Hvis nærmeste fisk eller haj er tæt på, beregn targetAngle
         if ((closestFish && minDist < 60) || sharkDist < 80) {
             let closestX = (minDist < sharkDist) ? closestFish.x : sharkX;
             this.targetAngle = map(this.x - closestX, -50, 50, -PI / 4, PI / 4);
@@ -204,7 +205,7 @@ function draw() {
     shark.show();
 
     for (let weed of Water_grass) {
-        weed.update(allFish, shark.x, shark.y);  // sender alle fisk til update
+        weed.update(allFish, shark.x, shark.y);
         weed.show();
     }
 }
