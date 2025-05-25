@@ -48,7 +48,7 @@ class Fish {
     }
 }
 
-// Player-controlled fish class
+// red fish class
 class MyFish extends Fish {
     constructor(x, y) {
         super(x, y);
